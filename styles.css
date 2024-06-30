@@ -96,21 +96,3 @@ button:hover {
     padding-bottom: 10px;
     border-bottom: 1px solid #ccc;
 }
-
-/* Italian flag colors */
-.container {
-    border-top-color: #009246; /* Green */
-    border-bottom-color: #ce2b37; /* Red */
-}
-
-button {
-    background-color: #ce2b37; /* Red */
-}
-
-button:hover {
-    background-color: #b22a2f; /* Darker red */
-}
-
-#progress {
-    background-color: #009246; /* Green */
-}

@@ -42,46 +42,55 @@ const exercises = [
     { question: "______ gatti giocano nel giardino.", answer: "I", translation: "The cats play in the garden.", fullAnswer: "I gatti giocano nel giardino." }
 ];
 
-let selectedExercises = [];
 let currentExercise = 0;
 let correctAnswers = 0;
-let userAnswers = [];
+let exerciseCount = 5; // Default number of exercises
+
+const startPage = document.getElementById('startPage');
+const exercisePage = document.getElementById('exercisePage');
+const summaryPage = document.getElementById('summaryPage');
 
 function startExercises() {
-    const exerciseCount = parseInt(document.getElementById('exercise-count').value);
-    selectedExercises = getRandomExercises(exerciseCount);
-    currentExercise = 0;
-    correctAnswers = 0;
-    userAnswers = [];
-    document.getElementById('start-container').style.display = 'none';
-    document.getElementById('exercise-container').style.display = 'block';
+    exerciseCount = parseInt(document.getElementById('exerciseCount').value);
+    startPage.classList.add('hidden');
+    exercisePage.classList.remove('hidden');
     loadExercise();
 }
 
 function loadExercise() {
-    const exerciseElement = document.getElementById('exercise');
-    exerciseElement.textContent = selectedExercises[currentExercise].question;
+    if (currentExercise < exerciseCount) {
+        const exerciseElement = document.getElementById('exercise');
+        exerciseElement.textContent = exercises[currentExercise].question;
+    } else {
+        showSummary();
+    }
 }
 
 function checkAnswer() {
     const userAnswer = document.getElementById('answer').value.trim();
     const feedbackElement = document.getElementById('feedback');
-    const correctAnswer = selectedExercises[currentExercise].answer;
-    const translation = selectedExercises[currentExercise].translation;
-    const fullAnswer = selectedExercises[currentExercise].fullAnswer;
+    const correctAnswer = exercises[currentExercise].answer;
+    const translation = exercises[currentExercise].translation;
+    const fullAnswer = exercises[currentExercise].fullAnswer;
 
+    let feedbackText = '';
     if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-        feedbackElement.innerHTML = `<span style="color: green;">Correct! ${correctAnswer} - ${translation} (${fullAnswer})</span>`;
+        feedbackText = `<span style="color: green;">Correct! ${correctAnswer} - ${translation} (${fullAnswer})</span>`;
         correctAnswers++;
     } else {
-        feedbackElement.innerHTML = `<span style="color: red;">Incorrect. The correct answer is ${correctAnswer}. ${translation} (${fullAnswer})</span>`;
+        feedbackText = `<span style="color: red;">Incorrect. The correct answer is ${correctAnswer}. ${translation} (${fullAnswer})</span>`;
     }
 
-    updateProgressBar();
+    feedbackElement.innerHTML = feedbackText;
 
+    // Update progress bar
+    const progress = (correctAnswers / exerciseCount) * 100;
+    document.getElementById('progress').style.width = `${progress}%`;
+
+    // Move to the next exercise or show summary
     setTimeout(() => {
         currentExercise++;
-        if (currentExercise < selectedExercises.length) {
+        if (currentExercise < exerciseCount) {
             document.getElementById('answer').value = '';
             feedbackElement.textContent = '';
             loadExercise();
@@ -91,37 +100,33 @@ function checkAnswer() {
     }, 2000);
 }
 
-function updateProgressBar() {
-    const progress = ((currentExercise + 1) / selectedExercises.length) * 100;
-    document.getElementById('progress').style.width = `${progress}%`;
-}
-
 function showSummary() {
-    const summaryContainer = document.getElementById('summary-container');
-    const exerciseContainer = document.getElementById('exercise-container');
-    const exerciseList = document.getElementById('exercise-list');
-    const summary = document.getElementById('summary');
+    exercisePage.classList.add('hidden');
+    summaryPage.classList.remove('hidden');
 
-    exerciseContainer.style.display = 'none';
-    summaryContainer.style.display = 'block';
-
-    summary.innerHTML = `<p>Your success rate: ${correctAnswers} out of ${selectedExercises.length}</p>`;
-    exerciseList.innerHTML = '';
-
-    userAnswers.forEach((exercise) => {
-        if (exercise.userAnswer.toLowerCase() !== exercise.correctAnswer.toLowerCase()) {
-            exerciseList.innerHTML += `<li>${exercise.question} <br> Your answer: ${exercise.userAnswer || "No answer"} <br> Correct answer: ${exercise.fullAnswer} (${exercise.translation})</li>`;
-        }
-    });
+    const summaryElement = document.getElementById('summary');
+    summaryElement.innerHTML = `
+        <p>You completed ${exerciseCount} exercises.</p>
+        <p>Success Rate: ${(correctAnswers / exerciseCount * 100).toFixed(2)}%</p>
+        <h2>Exercise Summary</h2>
+        <ul>
+            ${exercises.slice(0, exerciseCount).map((exercise, index) => `
+                <li>
+                    <strong>Exercise ${index + 1}:</strong>
+                    <br>
+                    Question: ${exercise.question}
+                    <br>
+                    Correct Answer: ${exercise.answer} - ${exercise.translation} (${exercise.fullAnswer})
+                </li>
+            `).join('')}
+        </ul>
+    `;
 }
 
 function restart() {
-    document.getElementById('summary-container').style.display = 'none';
-    document.getElementById('start-container').style.display = 'block';
-    document.getElementById('exercise-list').innerHTML = '';
-}
-
-function getRandomExercises(count) {
-    const shuffled = exercises.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
+    currentExercise = 0;
+    correctAnswers = 0;
+    startPage.classList.remove('hidden');
+    summaryPage.classList.add('hidden');
+    exercisePage.classList.add('hidden');
 }
