@@ -1,0 +1,116 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    border-top: 10px solid #009246; /* Green */
+    border-bottom: 10px solid #ce2b37; /* Red */
+}
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#exercise {
+    font-size: 1.6em;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+#answer {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+}
+
+#answer:focus {
+    border-color: #009246; /* Green */
+    outline: none;
+}
+
+button {
+    background-color: #ce2b37; /* Red */
+    color: white;
+    padding: 12px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #b22a2f; /* Darker red */
+}
+
+#feedback {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #333;
+}
+
+.progress-bar {
+    background-color: #f0f0f0;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+#progress {
+    width: 0%;
+    height: 100%;
+    background-color: #009246; /* Green */
+    transition: width 0.3s;
+}
+
+#summary {
+    text-align: left;
+    margin-top: 20px;
+}
+
+#summary li {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Italian flag colors */
+.container {
+    border-top-color: #009246; /* Green */
+    border-bottom-color: #ce2b37; /* Red */
+}
+
+button {
+    background-color: #ce2b37; /* Red */
+}
+
+button:hover {
+    background-color: #b22a2f; /* Darker red */
+}
+
+#progress {
+    background-color: #009246; /* Green */
+}
